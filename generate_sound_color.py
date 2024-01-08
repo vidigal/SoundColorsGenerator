@@ -37,27 +37,18 @@ def brownian_noise(f):
 def pink_noise(f):
     return 1 / np.where(f == 0, float('inf'), np.sqrt(f))
 
-duration_s = 35
-freq_hz = 9990.0
+
+rate = 44_100
+duration = 30
 plt.style.use('dark_background')
-sps = 48000
 plt.figure(figsize=(12, 8), tight_layout=True)
 for G, c in zip(
         [brownian_noise, pink_noise, white_noise, blue_noise, violet_noise],
         ['brown', 'hotpink', 'white', 'blue', 'violet']):
-    plot_spectrum(G(duration_s*sps)).set(color=c, linewidth=3)
-
-    each_sample_number = np.arange(duration_s * sps)
-    waveform = np.sin(2 * np.pi * G(duration_s*sps) * freq_hz / sps)
-    waveform_quiet = waveform * 0.3
-    waveform_integers = np.int16(waveform_quiet * 32767)
-    plot_spectrum(np.int16(waveform_quiet * 32767)).set(color=c, linewidth=3)
-
-
-    write(f'./output/{c}.wav', sps, waveform_integers)
+    plot_spectrum(G(duration*rate)).set(color=c, linewidth=3)
+    write(f'./output/{c}.wav', rate, G(duration*rate))
 
 plt.legend(['brownian', 'pink', 'white', 'blue', 'violet'])
-plt.suptitle("Colored Noise");
-plt.ylim([1e-3, None]);
-plt.show(block=True)
-
+plt.suptitle("Colored Noise")
+plt.ylim([1e-3, None])
+plt.show()
