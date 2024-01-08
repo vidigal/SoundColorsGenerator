@@ -39,16 +39,18 @@ def pink_noise(f):
 
 
 rate = 44_100
-duration = 30
-plt.style.use('dark_background')
-plt.figure(figsize=(12, 8), tight_layout=True)
-for G, c in zip(
-        [brownian_noise, pink_noise, white_noise, blue_noise, violet_noise],
-        ['brown', 'hotpink', 'white', 'blue', 'violet']):
-    plot_spectrum(G(duration*rate)).set(color=c, linewidth=3)
-    write(f'./output/{c}.wav', rate, G(duration*rate))
+duration = 3600 # in seconds
+write(f'./output/brown.wav', rate, brownian_noise(duration*rate))
 
-plt.legend(['brownian', 'pink', 'white', 'blue', 'violet'])
-plt.suptitle("Colored Noise")
-plt.ylim([1e-3, None])
-plt.show()
+# plt.style.use('dark_background')
+# plt.figure(figsize=(12, 8), tight_layout=True)
+# for G, c in zip(
+#         [brownian_noise, pink_noise, white_noise, blue_noise, violet_noise],
+#         ['brown', 'hotpink', 'white', 'blue', 'violet']):
+#     plot_spectrum(G(duration*rate)).set(color=c, linewidth=3)
+#     write(f'./output/{c}.wav', rate, G(duration*rate))
+#
+# plt.legend(['brownian', 'pink', 'white', 'blue', 'violet'])
+# plt.suptitle("Colored Noise")
+# plt.ylim([1e-3, None])
+# plt.show()
